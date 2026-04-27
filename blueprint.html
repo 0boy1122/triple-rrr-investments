@@ -381,6 +381,34 @@
         .d2 { transition-delay:.2s; }
         .d3 { transition-delay:.3s; }
         .d4 { transition-delay:.4s; }
+
+        /* ══ MOBILE ENHANCEMENTS ══ */
+        @media(max-width:768px){
+            button, a, input, select { cursor:pointer; }
+            .hero{ padding:100px 20px 60px; }
+            .hero h1{ font-size:clamp(30px,9vw,54px); }
+            .hero-sub{ font-size:15px; }
+            .hero-badges{ gap:10px; }
+            .badge{ padding:8px 14px; font-size:12.5px; }
+            .section{ padding:72px 20px; }
+            .section-sm{ padding:56px 20px; }
+        }
+        @media(max-width:600px){
+            /* Timeline — tighten left indent */
+            .timeline::before{ left:14px; }
+            .tl-item{ padding-left:46px; }
+            .tl-dot{ left:6px; width:18px; height:18px; font-size:9px; }
+            /* Optin — stack button full width */
+            .optin-form{ flex-direction:column; }
+            .optin-btn{ width:100%; }
+            /* What-you-get — last card full span reset */
+            .wyg-card[style*="span 2"]{ grid-column:1 !important; }
+        }
+        @media(max-width:480px){
+            nav{ padding:0 16px; }
+            .nav-cta{ padding:8px 16px; font-size:11px; }
+            .pain p{ font-size:15px; }
+        }
     </style>
 </head>
 <body>

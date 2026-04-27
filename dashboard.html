@@ -133,12 +133,45 @@
         .tog.on::after{left:20px;}
 
         @media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.pg-grid{grid-template-columns:1fr}}
-        @media(max-width:768px){.sb{transform:translateX(-100%)}.main{margin-left:0}.sg{grid-template-columns:1fr}}
+        @media(max-width:768px){
+            .sb{transform:translateX(-100%);transition:transform .35s cubic-bezier(.25,.46,.45,.94);}
+            .sb.mob-open{transform:translateX(0);}
+            .main{margin-left:0;}
+            .sg{grid-template-columns:1fr;}
+            .mob-ham{display:flex !important;}
+            .sb-overlay{display:block !important;}
+            .sb-overlay.hidden{display:none !important;}
+            .topbar{padding:14px 20px;}
+            .content{padding:20px 16px;}
+            .stats{grid-template-columns:repeat(2,1fr);gap:10px;}
+            .sc{padding:16px;}
+            .sc-val{font-size:26px;}
+            table{font-size:12px;}
+            th,td{padding:10px 10px;}
+            /* hide less-critical columns on small screens */
+            .col-phone,.col-exp{display:none;}
+            .tbl-bar{gap:8px;}
+            .search{min-width:0;}
+        }
+        @media(max-width:480px){
+            .stats{grid-template-columns:1fr 1fr;}
+            .pg-grid{grid-template-columns:1fr;}
+            .tb-actions .btn-o{display:none;}
+        }
+
+        /* Mobile hamburger button — hidden on desktop */
+        .mob-ham{display:none;align-items:center;justify-content:center;width:38px;height:38px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);cursor:pointer;border-radius:6px;flex-shrink:0;margin-right:12px;}
+
+        /* Sidebar overlay for mobile */
+        .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;backdrop-filter:blur(2px);}
     </style>
 </head>
 <body>
 
-<aside class="sb">
+<!-- Mobile sidebar overlay -->
+<div class="sb-overlay hidden" id="sbOverlay" onclick="closeSidebar()"></div>
+
+<aside class="sb" id="sidebar">
     <div class="sb-logo">
         <img src="rrr logo.jpg" alt="Triple RRR Investments" style="height:44px;filter:invert(1);object-fit:contain;display:block;margin-bottom:6px;">
         <div class="sb-logo-sub">Command Center</div>
@@ -176,9 +209,14 @@
 
 <div class="main">
     <div class="topbar">
-        <div>
-            <div class="tb-greet" id="greeting">Good morning, <em style="font-style:italic;">Ron</em> 👋</div>
-            <div class="tb-date" id="tb-date"></div>
+        <div style="display:flex;align-items:center;">
+            <button class="mob-ham" onclick="openSidebar()" title="Menu">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <div>
+                <div class="tb-greet" id="greeting">Good morning, <em style="font-style:italic;">Ron</em> 👋</div>
+                <div class="tb-date" id="tb-date"></div>
+            </div>
         </div>
         <div class="tb-actions">
             <a href="index.html" target="_blank" class="btn-o">
@@ -345,7 +383,7 @@
                     <option value="guide">Investor ID Guide</option>
                 </select>
             </div>
-            <div class="tw"><table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Experience</th><th>Source</th><th>Date</th><th></th></tr></thead><tbody id="leads-body"><tr><td colspan="8"><div class="empty"><h3>No leads yet</h3><p>Submit a form on any page to see leads appear here instantly.</p></div></td></tr></tbody></table></div>
+            <div class="tw" style="overflow-x:auto;"><table><thead><tr><th>#</th><th>Name</th><th>Email</th><th class="col-phone">Phone</th><th class="col-exp">Experience</th><th>Source</th><th>Date</th><th></th></tr></thead><tbody id="leads-body"><tr><td colspan="8"><div class="empty"><h3>No leads yet</h3><p>Submit a form on any page to see leads appear here instantly.</p></div></td></tr></tbody></table></div>
         </div>
 
         <!-- ── CHATBOT ── -->
@@ -401,6 +439,18 @@
 </div>
 
 <script>
+// ── MOBILE SIDEBAR TOGGLE ──
+function openSidebar(){
+    document.getElementById('sidebar').classList.add('mob-open');
+    document.getElementById('sbOverlay').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+}
+function closeSidebar(){
+    document.getElementById('sidebar').classList.remove('mob-open');
+    document.getElementById('sbOverlay').classList.add('hidden');
+    document.body.style.overflow='';
+}
+
 // ── NAV ──
 function show(name, el) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
@@ -408,6 +458,7 @@ function show(name, el) {
     document.getElementById('view-' + name).classList.add('on');
     if (el) el.classList.add('on');
     renderAll();
+    closeSidebar();
 }
 
 // ── DATE / GREETING ──
@@ -469,8 +520,8 @@ function renderTable(leads, tbody, full) {
             <td style="color:var(--gold);font-weight:600;">${leads.length-i}</td>
             <td style="color:var(--white);font-weight:500;">${l.name||'—'}</td>
             <td>${l.email||'—'}</td>
-            <td>${l.phone||'—'}</td>
-            <td>${l.experience||'—'}</td>
+            <td class="col-phone">${l.phone||'—'}</td>
+            <td class="col-exp">${l.experience||'—'}</td>
             <td><span class="src ${srcClass(l.source)}">${l.source||'Main Site'}</span></td>
             <td>${fmtDate(l.date)}</td>
             <td><button onclick="deleteLead('${l.id}')" style="background:none;border:none;color:rgba(239,68,68,.55);cursor:pointer;font-size:18px;">×</button></td>
