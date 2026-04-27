@@ -125,9 +125,10 @@
         .hero__bg {
             position:absolute; inset:0;
             background:
-                radial-gradient(ellipse 80% 55% at 62% 38%, rgba(201,168,76,.075) 0%, transparent 60%),
-                radial-gradient(ellipse 45% 70% at 85% 80%, rgba(201,168,76,.04) 0%, transparent 55%),
-                var(--black);
+                radial-gradient(ellipse 80% 55% at 62% 38%, rgba(201,168,76,.18) 0%, transparent 60%),
+                radial-gradient(ellipse 45% 70% at 85% 80%, rgba(201,168,76,.08) 0%, transparent 55%),
+                linear-gradient(to bottom, rgba(8,8,8,.78) 0%, rgba(8,8,8,.55) 50%, rgba(8,8,8,.82) 100%),
+                url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1920&q=80') center 40% / cover no-repeat;
         }
         .hero__grid {
             position:absolute; inset:0;
@@ -436,7 +437,11 @@
         @media(max-width:900px){ .testi__grid{ grid-template-columns:1fr; max-width:480px; margin:0 auto; } }
 
         /* ── PRICING ── */
-        .pricing { background:var(--black); }
+        .pricing {
+            background:
+                linear-gradient(rgba(8,8,8,.92), rgba(8,8,8,.92)),
+                url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        }
         .pricing__wrap { max-width:1080px; margin:0 auto; }
         .pricing__hd { text-align:center; margin-bottom:60px; }
         .pricing__hd .s-label { justify-content:center; }
@@ -958,6 +963,76 @@
 @media(max-width:900px){ .niches-grid{ grid-template-columns:repeat(2,1fr) !important; } }
 @media(max-width:540px){ .niches-grid{ grid-template-columns:1fr !important; } }
 </style>
+
+<!-- ████████ IMPACT STRIP ████████ -->
+<style>
+    .impact-strip {
+        position:relative; overflow:hidden; padding:100px 56px;
+        background:
+            linear-gradient(135deg, rgba(8,8,8,.85) 0%, rgba(8,8,8,.62) 50%, rgba(8,8,8,.85) 100%),
+            url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+        background-attachment: fixed;
+    }
+    .impact-grid {
+        max-width:1080px; margin:0 auto;
+        display:grid; grid-template-columns:repeat(3,1fr);
+        gap:2px; text-align:center;
+    }
+    .impact-stat {
+        padding:40px 20px;
+        border-right:1px solid rgba(201,168,76,.2);
+    }
+    .impact-stat:last-child { border-right:none; }
+    .impact-num {
+        font-family:var(--ff-disp);
+        font-size:clamp(44px,6vw,80px); font-weight:700; line-height:1;
+        background:var(--gold-grad);
+        -webkit-background-clip:text; background-clip:text;
+        -webkit-text-fill-color:transparent;
+    }
+    .impact-lbl {
+        font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+        color:var(--white-dim); margin-top:10px;
+    }
+    .impact-quote {
+        max-width:700px; margin:52px auto 0; text-align:center;
+    }
+    .impact-quote p:first-child {
+        font-family:var(--ff-disp);
+        font-size:clamp(22px,3vw,36px); font-style:italic;
+        color:var(--white); line-height:1.4; opacity:.92;
+    }
+    .impact-quote p:last-child {
+        font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+        color:var(--gold); margin-top:18px;
+    }
+    @media(max-width:768px){
+        .impact-strip { padding:72px 24px; background-attachment:scroll; }
+        .impact-grid  { grid-template-columns:1fr; gap:0; }
+        .impact-stat  { border-right:none; border-bottom:1px solid rgba(201,168,76,.2); padding:28px 20px; }
+        .impact-stat:last-child { border-bottom:none; }
+    }
+</style>
+<div class="impact-strip">
+    <div class="impact-grid rv">
+        <div class="impact-stat">
+            <div class="impact-num">40K+</div>
+            <div class="impact-lbl">Active Investor Community</div>
+        </div>
+        <div class="impact-stat">
+            <div class="impact-num">$2M+</div>
+            <div class="impact-lbl">Student Returns Generated</div>
+        </div>
+        <div class="impact-stat">
+            <div class="impact-num">15+</div>
+            <div class="impact-lbl">Years Investing Experience</div>
+        </div>
+    </div>
+    <div class="impact-quote rv d2">
+        <p>"Real estate is not about houses. It's about freedom — and the system you use to get there."</p>
+        <p>— Ron Breitenbach, Triple RRR Investments</p>
+    </div>
+</div>
 
 <!-- ████████ TESTIMONIALS ████████ -->
 <section class="testi" id="testimonials">
