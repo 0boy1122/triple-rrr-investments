@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>90-Day First Deal Blueprint | Triple RRR Investments</title>
+    <meta name="description" content="Get the exact blueprint Ron Breitenbach used to close his first deal — and the system he's used to help students do the same in 90 days or less.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black:    #080808;
+            --black-2:  #111111;
+            --black-3:  #1a1a1a;
+            --white:    #f8f6f0;
+            --white-dim: rgba(248,246,240,0.62);
+            --gold:     #C9A84C;
+            --gold-lt:  #E2C472;
+            --gold-dk:  #9A7A2E;
+            --gold-grad: linear-gradient(135deg,#C9A84C 0%,#E2C472 50%,#C9A84C 100%);
+            --ff-disp: 'Cormorant Garamond', Georgia, serif;
+            --ff-body: 'DM Sans', system-ui, sans-serif;
+            --t: 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family: var(--ff-body);
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top:0; left:0; right:0; z-index:900;
+            display: flex; align-items:center; justify-content:space-between;
+            padding: 0 40px; height:64px;
+            background: rgba(8,8,8,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(201,168,76,.1);
+        }
+        .nav-logo {
+            font-family: var(--ff-disp);
+            font-size: 22px; font-weight:600; letter-spacing:.04em;
+            background: var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            text-decoration:none;
+        }
+        .nav-cta {
+            background: var(--gold-grad);
+            color: var(--black); font-weight:600; font-size:13px;
+            letter-spacing:.06em; text-transform:uppercase;
+            padding: 9px 22px; border-radius:2px;
+            text-decoration:none; transition: opacity var(--t), transform var(--t);
+        }
+        .nav-cta:hover { opacity:.88; transform:translateY(-1px); }
+        @media(max-width:520px){ nav{ padding:0 20px; } .nav-logo{ font-size:18px; } }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction:column; align-items:center; justify-content:center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative; overflow:hidden;
+        }
+        .hero::before {
+            content:'';
+            position:absolute; inset:0;
+            background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(201,168,76,.12) 0%, transparent 70%);
+            pointer-events:none;
+        }
+        /* diagonal line texture */
+        .hero::after {
+            content:'';
+            position:absolute; inset:0;
+            background-image: repeating-linear-gradient(
+                -45deg,
+                transparent, transparent 40px,
+                rgba(201,168,76,.025) 40px, rgba(201,168,76,.025) 41px
+            );
+            pointer-events:none;
+        }
+        .hero-eyebrow {
+            font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:24px; position:relative;
+        }
+        .hero h1 {
+            font-family: var(--ff-disp);
+            font-size: clamp(38px,6.5vw,88px);
+            font-weight:700; line-height:1.06;
+            max-width: 860px;
+            position:relative;
+        }
+        .hero h1 em { font-style:italic; color:var(--gold-lt); }
+        .hero-sub {
+            margin-top: 28px;
+            font-size: clamp(16px,1.8vw,20px);
+            color: var(--white-dim);
+            max-width: 620px;
+            line-height: 1.72;
+            position:relative;
+        }
+        .hero-badges {
+            display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+            margin-top: 44px; position:relative;
+        }
+        .badge {
+            display:flex; align-items:center; gap:8px;
+            background: rgba(201,168,76,.08);
+            border: 1px solid rgba(201,168,76,.22);
+            border-radius:40px;
+            padding: 10px 20px;
+            font-size:13.5px; font-weight:500;
+        }
+        .badge-ico { color:var(--gold); font-size:16px; }
+
+        /* ── SECTION WRAPPER ── */
+        .section { padding: 100px 24px; max-width:1080px; margin:0 auto; }
+        .section-sm { padding: 72px 24px; max-width:780px; margin:0 auto; }
+        .label {
+            font-size:10.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+            color:var(--gold); margin-bottom:18px;
+        }
+        .h2 {
+            font-family: var(--ff-disp);
+            font-size: clamp(32px,4.5vw,60px);
+            font-weight:700; line-height:1.12;
+        }
+        .h2 em { font-style:italic; color:var(--gold-lt); }
+        .divider {
+            width:48px; height:2px;
+            background: var(--gold-grad);
+            margin: 22px 0 34px;
+        }
+
+        /* ── PAIN ── */
+        .pain { background: var(--black-2); padding:80px 24px; }
+        .pain-inner { max-width:880px; margin:0 auto; text-align:center; }
+        .pain p {
+            font-size: clamp(17px,2vw,22px);
+            line-height: 1.78;
+            color: var(--white-dim);
+            margin-bottom: 20px;
+        }
+        .pain p strong { color:var(--white); }
+        .pain p:last-child { margin-bottom:0; }
+
+        /* ── TIMELINE ── */
+        .timeline { list-style:none; position:relative; padding-left:0; }
+        .timeline::before {
+            content:'';
+            position:absolute; left:22px; top:0; bottom:0; width:2px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+        .tl-item {
+            display:flex; gap:28px;
+            padding-left:60px; margin-bottom:50px; position:relative;
+        }
+        .tl-dot {
+            position:absolute; left:12px; top:4px;
+            width:22px; height:22px; border-radius:50%;
+            background: var(--black-3);
+            border: 2px solid var(--gold);
+            display:flex; align-items:center; justify-content:center;
+            font-size:10px; font-weight:700; color:var(--gold);
+            flex-shrink:0;
+        }
+        .tl-week {
+            font-size:10px; font-weight:700; letter-spacing:.2em;
+            text-transform:uppercase; color:var(--gold);
+            margin-bottom:6px;
+        }
+        .tl-title {
+            font-family:var(--ff-disp);
+            font-size:clamp(20px,2.2vw,26px); font-weight:700;
+            margin-bottom:10px; line-height:1.2;
+        }
+        .tl-body {
+            font-size:15px; color:var(--white-dim); line-height:1.72;
+        }
+        .tl-callout {
+            margin-top:14px;
+            background: rgba(201,168,76,.08);
+            border-left: 3px solid var(--gold);
+            padding: 12px 16px;
+            font-size:14px; color:var(--gold-lt);
+            font-weight:500;
+        }
+
+        /* ── WHAT YOU GET ── */
+        .wyg-grid {
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:16px; margin-top:40px;
+        }
+        @media(max-width:600px){ .wyg-grid{ grid-template-columns:1fr; } }
+        .wyg-card {
+            background:var(--black-2);
+            border:1px solid rgba(201,168,76,.12);
+            border-radius:4px;
+            padding:28px 24px;
+            transition: border-color var(--t), transform var(--t);
+        }
+        .wyg-card:hover { border-color:rgba(201,168,76,.4); transform:translateY(-3px); }
+        .wyg-ico { font-size:26px; margin-bottom:14px; }
+        .wyg-card h3 {
+            font-family:var(--ff-disp);
+            font-size:20px; font-weight:700; margin-bottom:8px;
+        }
+        .wyg-card p { font-size:14px; color:var(--white-dim); line-height:1.66; }
+
+        /* ── CHECKLIST ── */
+        .checklist { list-style:none; margin-top:32px; }
+        .checklist li {
+            display:flex; align-items:flex-start; gap:14px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(201,168,76,.08);
+            font-size:15.5px; line-height:1.6;
+        }
+        .checklist li:last-child { border-bottom:none; }
+        .chk {
+            width:22px; height:22px; flex-shrink:0;
+            border-radius:50%;
+            background: rgba(201,168,76,.15);
+            border: 1px solid var(--gold);
+            display:flex; align-items:center; justify-content:center;
+            margin-top:1px;
+        }
+        .chk svg { width:11px; height:11px; }
+
+        /* ── OPT-IN ── */
+        .optin {
+            background: var(--black-2);
+            border: 1px solid rgba(201,168,76,.18);
+            border-radius:6px;
+            padding: 60px 48px;
+            text-align:center;
+            margin-top:60px;
+            position:relative; overflow:hidden;
+        }
+        .optin::before {
+            content:'';
+            position:absolute; top:0; left:0; right:0; height:2px;
+            background: var(--gold-grad);
+        }
+        .optin h2 {
+            font-family:var(--ff-disp);
+            font-size:clamp(28px,4vw,48px); font-weight:700;
+            line-height:1.14; margin-bottom:16px;
+        }
+        .optin h2 em { font-style:italic; color:var(--gold-lt); }
+        .optin p { font-size:16px; color:var(--white-dim); margin-bottom:36px; line-height:1.7; }
+        .optin-form {
+            display:flex; gap:12px; max-width:520px; margin:0 auto; flex-wrap:wrap;
+        }
+        .optin-form input {
+            flex:1; min-width:200px;
+            background:var(--black-3);
+            border: 1px solid rgba(201,168,76,.2);
+            color:var(--white); padding:15px 20px;
+            font-family:var(--ff-body); font-size:15px;
+            outline:none; border-radius:3px;
+            transition: border-color var(--t);
+        }
+        .optin-form input:focus { border-color:var(--gold); }
+        .optin-form input::placeholder { color:rgba(248,246,240,.28); }
+        .optin-btn {
+            background: var(--gold-grad);
+            color:var(--black); border:none; cursor:pointer;
+            padding:15px 32px; font-family:var(--ff-body);
+            font-size:14px; font-weight:700; letter-spacing:.06em;
+            text-transform:uppercase; border-radius:3px;
+            transition: opacity var(--t), transform var(--t), box-shadow var(--t);
+            white-space:nowrap;
+        }
+        .optin-btn:hover { opacity:.88; transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,.3); }
+        .optin-trust {
+            margin-top:16px;
+            font-size:12px; color:var(--white-dim); opacity:.7;
+        }
+        @media(max-width:600px){ .optin{ padding:40px 24px; } }
+
+        /* ── BIO ── */
+        .bio {
+            display:grid; grid-template-columns:180px 1fr;
+            gap:40px; align-items:start;
+            background:var(--black-2);
+            border:1px solid rgba(201,168,76,.1);
+            border-radius:4px;
+            padding:40px;
+            margin-top:24px;
+        }
+        @media(max-width:640px){ .bio{ grid-template-columns:1fr; gap:24px; } }
+        .bio-img {
+            width:180px; height:180px; border-radius:4px;
+            object-fit:cover;
+            border: 2px solid rgba(201,168,76,.3);
+            background: var(--black-3);
+            display:flex; align-items:center; justify-content:center;
+            font-size:72px; color:rgba(201,168,76,.3);
+        }
+        .bio h3 {
+            font-family:var(--ff-disp);
+            font-size:clamp(22px,2.5vw,32px); font-weight:700;
+            margin-bottom:6px;
+        }
+        .bio-title {
+            font-size:12px; font-weight:600; letter-spacing:.18em;
+            text-transform:uppercase; color:var(--gold);
+            margin-bottom:18px;
+        }
+        .bio p { font-size:15px; color:var(--white-dim); line-height:1.76; margin-bottom:14px; }
+        .bio p:last-child { margin-bottom:0; }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            display:grid; grid-template-columns:repeat(3,1fr);
+            gap:2px; background:rgba(201,168,76,.1);
+            border:1px solid rgba(201,168,76,.12);
+            border-radius:4px; overflow:hidden;
+            margin-top:48px;
+        }
+        @media(max-width:520px){ .stats-bar{ grid-template-columns:1fr; } }
+        .stat-box {
+            padding:28px 20px; text-align:center;
+            background:var(--black-2);
+        }
+        .stat-box .num {
+            font-family:var(--ff-disp);
+            font-size:clamp(30px,4vw,48px); font-weight:700;
+            background:var(--gold-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            line-height:1;
+        }
+        .stat-box .lbl {
+            font-size:11.5px; color:var(--white-dim); margin-top:6px;
+            letter-spacing:.08em; text-transform:uppercase;
+        }
+
+        /* ── FAQ ── */
+        .faq { margin-top:40px; }
+        .fq {
+            border-bottom: 1px solid rgba(201,168,76,.1);
+            padding: 0;
+        }
+        .fq-btn {
+            width:100%; background:none; border:none; color:var(--white);
+            display:flex; justify-content:space-between; align-items:center;
+            padding:22px 0; cursor:pointer;
+            font-family:var(--ff-body); font-size:16px; font-weight:500;
+            text-align:left; gap:16px;
+        }
+        .fq-ico {
+            width:22px; height:22px; flex-shrink:0;
+            border-radius:50%; border:1px solid rgba(201,168,76,.35);
+            display:flex; align-items:center; justify-content:center;
+            color:var(--gold); transition: transform var(--t), background var(--t);
+            font-size:14px;
+        }
+        .fq.open .fq-ico { transform:rotate(45deg); background:rgba(201,168,76,.12); }
+        .fq-body {
+            max-height:0; overflow:hidden;
+            transition: max-height .45s cubic-bezier(0.25,0.46,0.45,0.94), padding .3s;
+            font-size:15px; color:var(--white-dim); line-height:1.74;
+        }
+        .fq.open .fq-body { max-height:300px; padding-bottom:22px; }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align:center; padding:48px 24px;
+            border-top:1px solid rgba(201,168,76,.1);
+            font-size:13px; color:var(--white-dim); line-height:2;
+        }
+        footer a { color:var(--gold); text-decoration:none; }
+        footer a:hover { text-decoration:underline; }
+
+        /* ── REVEAL ANIMATIONS ── */
+        .rv { opacity:0; transform:translateY(28px); transition:opacity .7s var(--t), transform .7s var(--t); }
+        .rv.visible { opacity:1; transform:none; }
+        .d1 { transition-delay:.1s; }
+        .d2 { transition-delay:.2s; }
+        .d3 { transition-delay:.3s; }
+        .d4 { transition-delay:.4s; }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="index.html" class="nav-logo">
+        <img src="rrr logo.jpg" alt="Triple RRR Investments" style="height:42px;filter:invert(1);object-fit:contain;display:block;">
+    </a>
+    <a href="#get-blueprint" class="nav-cta">Get Free Blueprint</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <p class="hero-eyebrow rv">Free Investor Resource — Limited Time</p>
+    <h1 class="rv d1">
+        Your First Real Estate Deal<br>
+        Is <em>Closer Than You Think.</em><br>
+        You Just Don't Have the Blueprint Yet.
+    </h1>
+    <p class="hero-sub rv d2">
+        The exact 90-day roadmap Ron Breitenbach uses to take students from absolute zero to their first closed deal — without a bank loan, without perfect credit, and without quitting their day job.
+    </p>
+    <div class="hero-badges rv d3">
+        <div class="badge"><span class="badge-ico">🏦</span> No Bank Required</div>
+        <div class="badge"><span class="badge-ico">📊</span> No Perfect Credit</div>
+        <div class="badge"><span class="badge-ico">💼</span> No Quitting Your Job</div>
+        <div class="badge"><span class="badge-ico">🎁</span> 100% Free</div>
+    </div>
+</section>
+
+<!-- PAIN SECTION -->
+<section class="pain">
+    <div class="pain-inner">
+        <p class="rv"><strong>Most people spend 3–5 years "thinking about" real estate</strong> — watching YouTube, reading books, attending free webinars — and still never close a deal.</p>
+        <p class="rv d1">It's not a knowledge problem. It's a <strong>blueprint problem.</strong></p>
+        <p class="rv d2">You don't need more motivation. You need a specific sequence: what to do first, what to say, who to call, and how to structure a deal so you get paid — even before you own a single property.</p>
+        <p class="rv d3" style="color:var(--white);font-weight:500;">That's what this blueprint delivers.</p>
+    </div>
+</section>
+
+<!-- 90-DAY TIMELINE -->
+<div class="section">
+    <p class="label rv">The Roadmap</p>
+    <h2 class="h2 rv d1">Your 90-Day First Deal <em>Timeline</em></h2>
+    <div class="divider"></div>
+
+    <ul class="timeline">
+        <li class="tl-item rv">
+            <div class="tl-dot">1</div>
+            <div>
+                <p class="tl-week">Days 1 – 14 · Foundation</p>
+                <h3 class="tl-title">Market Selection & Deal Criteria</h3>
+                <p class="tl-body">Identify your target market, define your buy box, and set up your lead-generation pipeline. You'll learn how to find distressed sellers — not on the MLS — using free tools that most investors overlook.</p>
+            </div>
+        </li>
+        <li class="tl-item rv d1">
+            <div class="tl-dot">2</div>
+            <div>
+                <p class="tl-week">Days 15 – 30 · Conversations</p>
+                <h3 class="tl-title">The Three Key Conversations</h3>
+                <p class="tl-body">Master the exact scripts for talking to motivated sellers, cash buyers, and title companies. Word-for-word frameworks — so you always know what to say, even if it's your very first call.</p>
+                <div class="tl-callout">Most students who close their first deal say this single skill is what made it happen.</div>
+            </div>
+        </li>
+        <li class="tl-item rv d2">
+            <div class="tl-dot">3</div>
+            <div>
+                <p class="tl-week">Week 3 · Deal Structure</p>
+                <h3 class="tl-title">The Wholesale Deal — How to Get Paid First</h3>
+                <p class="tl-body">Before you ever own a property, you can earn an assignment fee. Week 3 shows you how to structure a wholesale deal, tie up a contract, and collect a check — without any capital. Many students see their first $14,000+ payday here.</p>
+                <div class="tl-callout" style="color:var(--gold);">$14,000 average assignment fee · No money down · Closeable in under 30 days</div>
+            </div>
+        </li>
+        <li class="tl-item rv d3">
+            <div class="tl-dot">4</div>
+            <div>
+                <p class="tl-week">Days 60 – 90 · Protection & Scale</p>
+                <h3 class="tl-title">LLC Setup & The Investor Protection Rule</h3>
+                <p class="tl-body">Every investor must know this before buying their first property. You'll learn how to structure your business the right way — separate personal and business liability — before a single deed is in your name.</p>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<!-- STATS BAR -->
+<div style="max-width:1080px;margin:0 auto;padding:0 24px;">
+    <div class="stats-bar rv">
+        <div class="stat-box">
+            <div class="num">40K+</div>
+            <div class="lbl">Active Investor Community</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">$2M+</div>
+            <div class="lbl">Student Returns Generated</div>
+        </div>
+        <div class="stat-box">
+            <div class="num">15 Yrs</div>
+            <div class="lbl">Investing Experience</div>
+        </div>
+    </div>
+</div>
+
+<!-- WHAT YOU GET -->
+<div class="section">
+    <p class="label rv">Inside the Blueprint</p>
+    <h2 class="h2 rv d1">Everything Included — <em>For Free</em></h2>
+    <div class="divider"></div>
+    <div class="wyg-grid">
+        <div class="wyg-card rv">
+            <div class="wyg-ico">🗺️</div>
+            <h3>Day-by-Day 90-Day Action Plan</h3>
+            <p>No guessing. Every day has a task. You always know exactly what to do next.</p>
+        </div>
+        <div class="wyg-card rv d1">
+            <div class="wyg-ico">📝</div>
+            <h3>Wholesale Deal Framework</h3>
+            <p>How to find, contract, and assign a deal — the fastest path to your first payday in real estate.</p>
+        </div>
+        <div class="wyg-card rv d2">
+            <div class="wyg-ico">📞</div>
+            <h3>The Three Key Conversations</h3>
+            <p>Word-for-word scripts for sellers, buyers, and title. Never wonder what to say again.</p>
+        </div>
+        <div class="wyg-card rv d3">
+            <div class="wyg-ico">🏛️</div>
+            <h3>LLC Protection Checklist</h3>
+            <p>The legal structure every investor must have in place before they sign their first contract.</p>
+        </div>
+        <div class="wyg-card rv d1" style="grid-column:span 2;">
+            <div class="wyg-ico">🔑</div>
+            <h3>The Investor Mindset Framework</h3>
+            <p>The mental shift that separates investors who close deals from those who stay stuck watching YouTube for years. This is the part no course talks about — and it's the part that actually moves the needle.</p>
+        </div>
+    </div>
+</div>
+
+<!-- OPT-IN FORM -->
+<div style="max-width:1080px;margin:0 auto;padding:0 24px 100px;" id="get-blueprint">
+    <div class="optin rv">
+        <h2>Get the Blueprint.<br><em>Start Your 90 Days Today.</em></h2>
+        <p>Enter your email and we'll send it straight to your inbox — free, no catch.</p>
+        <form class="optin-form" onsubmit="handleBlueprint(event)">
+            <input type="email" id="bp-email" placeholder="your@email.com" required>
+            <button type="submit" class="optin-btn" id="bp-btn">Get The Blueprint →</button>
+        </form>
+        <p class="optin-trust">🔒 100% Free · No Spam · Unsubscribe Anytime</p>
+    </div>
+</div>
+
+<!-- ABOUT RON -->
+<div class="section-sm" style="padding-top:0;">
+    <p class="label rv">Your Mentor</p>
+    <h2 class="h2 rv d1">About <em>Ron Breitenbach</em></h2>
+    <div class="divider"></div>
+    <div class="bio rv d2">
+        <img src="rr main pic.jpg" alt="Ron Breitenbach" class="bio-img" style="object-fit:cover;object-position:center top;font-size:0;">
+        <div>
+            <h3>Ron Breitenbach</h3>
+            <p class="bio-title">Founder · Triple RRR Investments · Renatus Educator</p>
+            <p>Ron has been a real estate investor since <strong>2010</strong>. He doesn't have a 401k — his retirement is built entirely in deals. As part of the Renatus educator network, he's connected to a community of over <strong>40,000 active investors</strong> nationwide.</p>
+            <p>The methodology behind Triple RRR has taken students from $200K/year to over <strong style="color:var(--gold);">$1M/year in real estate profits</strong>. He teaches fix & flip, wholesale, rental, land, and commercial strategies — and he actually picks up the phone when you call.</p>
+            <p style="color:var(--white-dim);">The blueprint you're about to download is the same system he's been refining since 2010. It works because it's field-tested — not theoretical.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div class="section-sm">
+    <p class="label rv">Questions</p>
+    <h2 class="h2 rv d1">Common <em>Questions</em></h2>
+    <div class="divider"></div>
+    <div class="faq rv d2">
+        <div class="fq">
+            <button class="fq-btn" onclick="toggleFaq(this)">
+                Is this really free? What's the catch?
+                <span class="fq-ico">+</span>
+            </button>
+            <div class="fq-body">Yes — completely free. No credit card, no hidden fees. Ron's philosophy is that the best way to show you the quality of his teaching is to give you something valuable first. The blueprint stands alone as a complete resource.</div>
+        </div>
+        <div class="fq">
+            <button class="fq-btn" onclick="toggleFaq(this)">
+                I've never done a deal. Is this for me?
+                <span class="fq-ico">+</span>
+            </button>
+            <div class="fq-body">Yes. The 90-Day Blueprint is built specifically for people starting from zero. Every concept is explained from scratch. If you've never talked to a seller or looked at a deal, this is exactly where you start.</div>
+        </div>
+        <div class="fq">
+            <button class="fq-btn" onclick="toggleFaq(this)">
+                Do I need money to get started?
+                <span class="fq-ico">+</span>
+            </button>
+            <div class="fq-body">Not for the wholesale strategy in Week 3. Wholesaling is specifically designed as a no-money-down entry point — you're assigning contracts, not buying properties. You do not need capital to close your first deal this way.</div>
+        </div>
+        <div class="fq">
+            <button class="fq-btn" onclick="toggleFaq(this)">
+                What if I want hands-on mentorship after reading?
+                <span class="fq-ico">+</span>
+            </button>
+            <div class="fq-body">Ron offers three levels of mentorship through Triple RRR Investments — Beginner ($497), Advanced Mentorship ($1,497 for 6 months), and VIP Coaching ($4,997 for 90 days of 1-on-1 intensive support). The blueprint is the preview; the programs are the transformation.</div>
+        </div>
+        <div class="fq">
+            <button class="fq-btn" onclick="toggleFaq(this)">
+                How long does it take to close a first deal?
+                <span class="fq-ico">+</span>
+            </button>
+            <div class="fq-body">The blueprint is designed around a 90-day timeline. Focused students who follow the daily action plan have closed their first wholesale deal in as few as 30 days. The timeline is realistic — not a pitch — because it's based on what students actually do, not theoretical best cases.</div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div style="font-family:var(--ff-disp);font-size:22px;font-weight:600;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">Triple RRR Investments</div>
+    <div>© 2025 Ron Breitenbach · Triple RRR Investments · Kairoscales. All rights reserved.</div>
+    <div style="margin-top:10px;">
+        <a href="index.html">Main Site</a> &nbsp;·&nbsp;
+        <a href="dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+        <a href="tel:+15203437331">520-343-7331</a> &nbsp;·&nbsp; <a href="mailto:inhousewealth@gmail.com">inhousewealth@gmail.com</a>
+    </div>
+</footer>
+
+<script>
+/* ── SCROLL REVEAL ── */
+const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.12});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* ── FAQ ── */
+function toggleFaq(btn){
+    const fq=btn.closest('.fq');
+    const isOpen=fq.classList.contains('open');
+    document.querySelectorAll('.fq.open').forEach(f=>f.classList.remove('open'));
+    if(!isOpen) fq.classList.add('open');
+}
+
+/* ── BLUEPRINT FORM ── */
+function handleBlueprint(e){
+    e.preventDefault();
+    const btn=document.getElementById('bp-btn');
+    const email=document.getElementById('bp-email').value.trim();
+    // Save to localStorage
+    const leads=JSON.parse(localStorage.getItem('triplerrr_leads')||'[]');
+    leads.unshift({id:Date.now(),email,source:'90-Day Blueprint',date:new Date().toISOString()});
+    localStorage.setItem('triplerrr_leads',JSON.stringify(leads));
+    // Update UI
+    btn.textContent='✓ Check Your Inbox!';
+    btn.style.background='linear-gradient(135deg,#22c55e,#16a34a)';
+    btn.disabled=true;
+    document.getElementById('bp-email').disabled=true;
+    setTimeout(()=>{
+        btn.textContent='Get The Blueprint →';
+        btn.style.background='';
+        btn.disabled=false;
+        document.getElementById('bp-email').value='';
+        document.getElementById('bp-email').disabled=false;
+    },7000);
+}
+</script>
+</body>
+</html>

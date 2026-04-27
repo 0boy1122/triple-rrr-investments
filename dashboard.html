@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triple RRR | Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black:#080808; --black-2:#111; --black-3:#1a1a1a; --black-4:#222;
+            --white:#f8f6f0; --wd:rgba(248,246,240,.6);
+            --gold:#C9A84C; --gold-lt:#E2C472;
+            --gold-grad:linear-gradient(135deg,#C9A84C 0%,#E2C472 50%,#C9A84C 100%);
+            --green:#22c55e; --red:#ef4444; --blue:#60a5fa; --purple:#c084fc;
+            --sw:260px;
+            --ff:'Cormorant Garamond',serif; --fb:'DM Sans',sans-serif;
+            --t:.3s cubic-bezier(.25,.46,.45,.94);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:var(--fb);background:var(--black);color:var(--white);min-height:100vh;display:flex;}
+
+        /* SIDEBAR */
+        .sb{width:var(--sw);min-height:100vh;background:var(--black-2);border-right:1px solid rgba(201,168,76,.12);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;z-index:100;}
+        .sb-logo{padding:26px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+        .sb-logo-name{font-family:var(--ff);font-size:20px;font-weight:600;}
+        .sb-logo-name b{background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .sb-logo-sub{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--wd);margin-top:4px;}
+        .sb-nav{padding:16px 0;flex:1;}
+        .sb-sec{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,246,240,.28);padding:14px 24px 6px;}
+        .ni{display:flex;align-items:center;gap:12px;padding:11px 24px;cursor:pointer;transition:var(--t);border-left:3px solid transparent;font-size:13.5px;color:var(--wd);}
+        .ni:hover{background:rgba(201,168,76,.06);color:var(--white);}
+        .ni.on{background:rgba(201,168,76,.08);border-left-color:var(--gold);color:var(--gold);font-weight:500;}
+        .ni svg{width:17px;height:17px;flex-shrink:0;}
+        .ni-badge{margin-left:auto;background:var(--gold);color:var(--black);font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:50px;}
+        .sb-foot{padding:18px 24px;border-top:1px solid rgba(201,168,76,.1);}
+        .sb-status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--wd);}
+        .dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite;}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+
+        /* MAIN */
+        .main{margin-left:var(--sw);flex:1;min-height:100vh;display:flex;flex-direction:column;}
+        .topbar{padding:18px 36px;border-bottom:1px solid rgba(201,168,76,.1);display:flex;align-items:center;justify-content:space-between;background:var(--black-2);position:sticky;top:0;z-index:50;}
+        .tb-greet{font-family:var(--ff);font-size:22px;font-weight:500;}
+        .tb-date{font-size:11.5px;color:var(--wd);margin-top:2px;}
+        .tb-actions{display:flex;gap:10px;}
+        .btn-g{display:inline-flex;align-items:center;gap:7px;background:var(--gold-grad);color:var(--black);border:none;padding:9px 18px;font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:var(--t);text-decoration:none;}
+        .btn-g:hover{box-shadow:0 4px 24px rgba(201,168,76,.45);transform:translateY(-1px);}
+        .btn-o{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,.3);padding:9px 18px;font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:var(--t);text-decoration:none;}
+        .btn-o:hover{border-color:var(--gold);background:rgba(201,168,76,.06);}
+
+        .content{padding:32px 36px;flex:1;}
+        .view{display:none;} .view.on{display:block;}
+
+        /* STATS */
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+        .sc{background:var(--black-2);border:1px solid rgba(201,168,76,.1);padding:22px;transition:var(--t);}
+        .sc:hover{border-color:rgba(201,168,76,.25);transform:translateY(-2px);}
+        .sc-ico{float:right;width:34px;height:34px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;color:var(--gold);border-radius:7px;}
+        .sc-label{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--wd);margin-bottom:10px;}
+        .sc-val{font-family:var(--ff);font-size:34px;font-weight:600;line-height:1;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+        .sc-sub{font-size:11px;color:var(--wd);margin-top:5px;}
+
+        /* SECTION HEADER */
+        .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+        .sh h2{font-family:var(--ff);font-size:22px;font-weight:500;}
+        .sh h2 em{font-style:italic;background:var(--gold-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+        /* PAGE CARDS */
+        .pg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:32px;}
+        .pgc{background:var(--black-2);border:1px solid rgba(201,168,76,.1);padding:26px;transition:var(--t);}
+        .pgc:hover{border-color:rgba(201,168,76,.28);}
+        .pgc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+        .pgc-ico{width:42px;height:42px;background:rgba(201,168,76,.1);display:flex;align-items:center;justify-content:center;color:var(--gold);}
+        .badge{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border-radius:50px;}
+        .b-live{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.22);}
+        .b-draft{background:rgba(248,246,240,.06);color:var(--wd);border:1px solid rgba(248,246,240,.1);}
+        .pgc-name{font-family:var(--ff);font-size:18px;font-weight:500;margin-bottom:7px;}
+        .pgc-desc{font-size:12.5px;color:var(--wd);line-height:1.6;margin-bottom:16px;}
+        .pgc-stats{display:flex;gap:18px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(201,168,76,.1);}
+        .pgc-stat span:first-child{font-family:var(--ff);font-size:19px;font-weight:600;color:var(--gold);display:block;line-height:1;}
+        .pgc-stat span:last-child{font-size:10px;color:var(--wd);letter-spacing:.1em;text-transform:uppercase;}
+        .pgc-acts{display:flex;gap:7px;}
+        .bs{display:inline-flex;align-items:center;gap:5px;padding:8px 13px;font-family:var(--fb);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:var(--t);text-decoration:none;border:none;}
+        .bs-g{background:var(--gold-grad);color:var(--black);flex:1;justify-content:center;}
+        .bs-g:hover{box-shadow:0 3px 16px rgba(201,168,76,.4);}
+        .bs-o{background:transparent;color:var(--gold);border:1px solid rgba(201,168,76,.28);}
+        .bs-o:hover{border-color:var(--gold);background:rgba(201,168,76,.06);}
+
+        /* TABLE */
+        .tbl-bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+        .search{flex:1;min-width:180px;background:var(--black-2);border:1px solid rgba(201,168,76,.14);color:var(--white);padding:9px 14px;font-family:var(--fb);font-size:13px;outline:none;transition:border-color .2s;}
+        .search:focus{border-color:var(--gold);}
+        .search::placeholder{color:rgba(248,246,240,.28);}
+        .fsel{background:var(--black-2);border:1px solid rgba(201,168,76,.14);color:var(--white);padding:9px 12px;font-family:var(--fb);font-size:13px;outline:none;cursor:pointer;}
+        .tw{background:var(--black-2);border:1px solid rgba(201,168,76,.1);overflow:hidden;}
+        table{width:100%;border-collapse:collapse;}
+        thead tr{background:rgba(201,168,76,.06);border-bottom:1px solid rgba(201,168,76,.12);}
+        th{text-align:left;padding:13px 16px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}
+        td{padding:13px 16px;font-size:13px;color:var(--wd);border-bottom:1px solid rgba(201,168,76,.05);}
+        tbody tr:hover td{background:rgba(201,168,76,.03);color:var(--white);}
+        tbody tr:last-child td{border-bottom:none;}
+        .src{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:50px;}
+        .s-main{background:rgba(201,168,76,.15);color:var(--gold);}
+        .s-guide{background:rgba(96,165,250,.15);color:var(--blue);}
+        .s-bp{background:rgba(192,132,252,.15);color:var(--purple);}
+        .empty{text-align:center;padding:56px 20px;color:var(--wd);}
+        .empty h3{font-family:var(--ff);font-size:21px;font-weight:400;margin-bottom:8px;color:var(--white);}
+        .empty p{font-size:13px;line-height:1.7;}
+
+        /* CHAT LOGS */
+        .cl-card{background:var(--black-2);border:1px solid rgba(201,168,76,.1);padding:18px 22px;margin-bottom:10px;}
+        .cl-hd{display:flex;justify-content:space-between;margin-bottom:12px;}
+        .cl-date{font-size:11px;color:var(--wd);}
+        .cm{display:flex;gap:9px;margin-bottom:7px;font-size:13px;}
+        .cm-role{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding-top:2px;flex-shrink:0;width:46px;}
+        .r-user{color:var(--gold);} .r-bot{color:var(--wd);}
+        .cm-txt{color:var(--wd);line-height:1.5;}
+
+        /* SETTINGS */
+        .sg{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+        .scard{background:var(--black-2);border:1px solid rgba(201,168,76,.1);padding:26px;}
+        .scard h3{font-family:var(--ff);font-size:18px;font-weight:500;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid rgba(201,168,76,.1);}
+        .fg{margin-bottom:16px;}
+        .fg label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--wd);margin-bottom:6px;}
+        .fg input,.fg textarea{width:100%;background:var(--black-3);border:1px solid rgba(201,168,76,.13);color:var(--white);padding:10px 13px;font-family:var(--fb);font-size:13.5px;outline:none;transition:border-color .2s;}
+        .fg input:focus,.fg textarea:focus{border-color:var(--gold);}
+        .fg textarea{resize:vertical;min-height:75px;}
+        .trow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:13.5px;}
+        .trow:last-child{border-bottom:none;}
+        .tog{width:38px;height:21px;background:rgba(201,168,76,.2);border-radius:50px;position:relative;cursor:pointer;transition:background .3s;}
+        .tog.on{background:var(--gold);}
+        .tog::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;background:var(--white);border-radius:50%;transition:left .3s;}
+        .tog.on::after{left:20px;}
+
+        @media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.pg-grid{grid-template-columns:1fr}}
+        @media(max-width:768px){.sb{transform:translateX(-100%)}.main{margin-left:0}.sg{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+
+<aside class="sb">
+    <div class="sb-logo">
+        <img src="rrr logo.jpg" alt="Triple RRR Investments" style="height:44px;filter:invert(1);object-fit:contain;display:block;margin-bottom:6px;">
+        <div class="sb-logo-sub">Command Center</div>
+    </div>
+    <nav class="sb-nav">
+        <div class="sb-sec">Main</div>
+        <div class="ni on" onclick="show('overview',this)">
+            <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+            Overview
+        </div>
+        <div class="ni" onclick="show('pages',this)">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M7 7h6M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Pages
+        </div>
+        <div class="sb-sec">Data</div>
+        <div class="ni" onclick="show('leads',this)">
+            <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Leads
+            <span class="ni-badge" id="lead-badge">0</span>
+        </div>
+        <div class="ni" onclick="show('chatbot',this)">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M18 10c0 4.418-3.582 8-8 8a8.02 8.02 0 01-3.504-.803L2 19l1.803-4.496A7.96 7.96 0 012 10c0-4.418 3.582-8 8-8s8 3.582 8 8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Chatbot Logs
+        </div>
+        <div class="sb-sec">System</div>
+        <div class="ni" onclick="show('settings',this)">
+            <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Settings
+        </div>
+    </nav>
+    <div class="sb-foot">
+        <div class="sb-status"><div class="dot"></div> All systems active</div>
+    </div>
+</aside>
+
+<div class="main">
+    <div class="topbar">
+        <div>
+            <div class="tb-greet" id="greeting">Good morning, <em style="font-style:italic;">Ron</em> 👋</div>
+            <div class="tb-date" id="tb-date"></div>
+        </div>
+        <div class="tb-actions">
+            <a href="index.html" target="_blank" class="btn-o">
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                View Main Site
+            </a>
+            <button class="btn-g" onclick="exportCSV()">
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v8M4 7l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Export Leads
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- ── OVERVIEW ── -->
+        <div class="view on" id="view-overview">
+            <div class="stats">
+                <div class="sc">
+                    <div class="sc-ico"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <div class="sc-label">Total Leads</div>
+                    <div class="sc-val" id="s-total">0</div>
+                    <div class="sc-sub">All pages combined</div>
+                </div>
+                <div class="sc">
+                    <div class="sc-ico"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <div class="sc-label">Main Site Leads</div>
+                    <div class="sc-val" id="s-main">0</div>
+                    <div class="sc-sub">Contact form + guide</div>
+                </div>
+                <div class="sc">
+                    <div class="sc-ico"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M2 4h16M2 8h16M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                    <div class="sc-label">Blueprint Leads</div>
+                    <div class="sc-val" id="s-bp">0</div>
+                    <div class="sc-sub">90-Day Blueprint page</div>
+                </div>
+                <div class="sc">
+                    <div class="sc-ico"><svg width="17" height="17" viewBox="0 0 20 20" fill="none"><path d="M18 10c0 4.418-3.582 8-8 8a8.02 8.02 0 01-3.504-.803L2 19l1.803-4.496A7.96 7.96 0 012 10c0-4.418 3.582-8 8-8s8 3.582 8 8z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                    <div class="sc-label">Chat Sessions</div>
+                    <div class="sc-val" id="s-chats">0</div>
+                    <div class="sc-sub">AI widget conversations</div>
+                </div>
+            </div>
+
+            <div class="sh"><h2>Your <em>Pages</em></h2></div>
+            <div class="pg-grid">
+                <div class="pgc">
+                    <div class="pgc-top">
+                        <div class="pgc-ico"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 22V12h6v10" stroke="currentColor" stroke-width="1.5"/></svg></div>
+                        <span class="badge b-live">Live</span>
+                    </div>
+                    <div class="pgc-name">Triple RRR Main Site</div>
+                    <div class="pgc-desc">Full coaching website — programs, 5 investor paths, pricing, AI chatbot, FAQ, lead capture.</div>
+                    <div class="pgc-stats">
+                        <div class="pgc-stat"><span id="pc-main">0</span><span>Leads</span></div>
+                        <div class="pgc-stat"><span>3</span><span>Programs</span></div>
+                        <div class="pgc-stat"><span>5</span><span>Niches</span></div>
+                    </div>
+                    <div class="pgc-acts">
+                        <a href="index.html" target="_blank" class="bs bs-g">Preview</a>
+                        <button class="bs bs-o" onclick="show('leads',document.querySelectorAll('.ni')[2])">Leads</button>
+                    </div>
+                </div>
+                <div class="pgc">
+                    <div class="pgc-top">
+                        <div class="pgc-ico"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                        <span class="badge b-live">Live</span>
+                    </div>
+                    <div class="pgc-name">90-Day Blueprint</div>
+                    <div class="pgc-desc">Lead capture for the 90-Day First Deal Blueprint. No bank, no perfect credit required.</div>
+                    <div class="pgc-stats">
+                        <div class="pgc-stat"><span id="pc-bp">0</span><span>Leads</span></div>
+                        <div class="pgc-stat"><span>Free</span><span>Offer</span></div>
+                        <div class="pgc-stat"><span>90</span><span>Day Plan</span></div>
+                    </div>
+                    <div class="pgc-acts">
+                        <a href="blueprint.html" target="_blank" class="bs bs-g">Preview</a>
+                        <button class="bs bs-o" onclick="show('leads',document.querySelectorAll('.ni')[2])">Leads</button>
+                    </div>
+                </div>
+                <div class="pgc">
+                    <div class="pgc-top">
+                        <div class="pgc-ico"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                        <span class="badge b-live">Live</span>
+                    </div>
+                    <div class="pgc-name">Investor ID Guide</div>
+                    <div class="pgc-desc">Original lead magnet on GitHub — 5 investor paths, niche quiz, free roadmap download.</div>
+                    <div class="pgc-stats">
+                        <div class="pgc-stat"><span>5</span><span>Niches</span></div>
+                        <div class="pgc-stat"><span>Free</span><span>Offer</span></div>
+                        <div class="pgc-stat"><span>Live</span><span>Status</span></div>
+                    </div>
+                    <div class="pgc-acts">
+                        <a href="https://tian942.github.io/aiaa-agentic-OS/" target="_blank" class="bs bs-g">Open</a>
+                        <a href="https://tian942.github.io/aiaa-agentic-OS/blueprint.html" target="_blank" class="bs bs-o">Blueprint</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sh"><h2>Recent <em>Leads</em></h2><button class="bs bs-o" onclick="show('leads',document.querySelectorAll('.ni')[2])">View All</button></div>
+            <div class="tw"><table><thead><tr><th>Name</th><th>Email</th><th>Source</th><th>Date</th></tr></thead><tbody id="recent-body"><tr><td colspan="4"><div class="empty"><h3>No leads yet</h3><p>Leads appear here as visitors sign up across your pages.</p></div></td></tr></tbody></table></div>
+        </div>
+
+        <!-- ── PAGES ── -->
+        <div class="view" id="view-pages">
+            <div class="sh" style="margin-bottom:24px;"><h2>Page <em>Manager</em></h2></div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+                <div style="background:var(--black-2);border:1px solid rgba(201,168,76,.12);padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:180px;">
+                        <div style="font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Page 01 · Main Coaching Site</div>
+                        <div style="font-family:var(--ff);font-size:20px;font-weight:500;margin-bottom:6px;">Triple RRR Investments</div>
+                        <div style="font-size:13px;color:var(--wd);line-height:1.6;">Full business site with 5 investor paths, programs ($497–$4,997), testimonials, AI chatbot, FAQ, and 2 lead capture forms.</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:7px;min-width:150px;">
+                        <div style="font-size:11px;color:var(--wd);">📍 File: <code style="color:var(--gold);">index.html</code></div>
+                        <div style="font-size:11px;color:var(--wd);">📊 Leads: <strong id="pm-main" style="color:var(--white);">0</strong></div>
+                        <span class="badge b-live" style="align-self:flex-start;">Live</span>
+                    </div>
+                    <a href="index.html" target="_blank" class="btn-g">Open Page</a>
+                </div>
+                <div style="background:var(--black-2);border:1px solid rgba(201,168,76,.12);padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:180px;">
+                        <div style="font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Page 02 · Lead Magnet</div>
+                        <div style="font-family:var(--ff);font-size:20px;font-weight:500;margin-bottom:6px;">90-Day First Deal Blueprint</div>
+                        <div style="font-size:13px;color:var(--wd);line-height:1.6;">Focused lead capture page. No bank, no perfect credit, no quitting your job. Email opt-in for the free 90-day blueprint.</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:7px;min-width:150px;">
+                        <div style="font-size:11px;color:var(--wd);">📍 File: <code style="color:var(--gold);">blueprint.html</code></div>
+                        <div style="font-size:11px;color:var(--wd);">📊 Leads: <strong id="pm-bp" style="color:var(--white);">0</strong></div>
+                        <span class="badge b-live" style="align-self:flex-start;">Live</span>
+                    </div>
+                    <a href="blueprint.html" target="_blank" class="btn-g">Open Page</a>
+                </div>
+                <div style="background:var(--black-2);border:1px solid rgba(201,168,76,.12);padding:28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+                    <div style="flex:1;min-width:180px;">
+                        <div style="font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Page 03 · Lead Magnet (GitHub)</div>
+                        <div style="font-family:var(--ff);font-size:20px;font-weight:500;margin-bottom:6px;">Investor ID Guide</div>
+                        <div style="font-size:13px;color:var(--wd);line-height:1.6;">Original landing page hosted on GitHub. Free guide identifying investor niche from 5 paths — fix &amp; flip, wholesale, rental, land, commercial.</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:7px;min-width:150px;">
+                        <div style="font-size:11px;color:var(--wd);">📍 GitHub: <code style="color:var(--gold);">tian942.github.io</code></div>
+                        <span class="badge b-live" style="align-self:flex-start;">Live</span>
+                    </div>
+                    <a href="https://tian942.github.io/aiaa-agentic-OS/" target="_blank" class="btn-g">Open Page</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── LEADS ── -->
+        <div class="view" id="view-leads">
+            <div class="sh">
+                <h2>All <em>Leads</em></h2>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn-o" onclick="clearLeads()" style="color:var(--red);border-color:rgba(239,68,68,.3);">Clear All</button>
+                    <button class="btn-g" onclick="exportCSV()">Export CSV</button>
+                </div>
+            </div>
+            <div class="tbl-bar">
+                <input class="search" placeholder="Search name or email…" oninput="filterQ=this.value;applyFilter()">
+                <select class="fsel" onchange="filterSrc=this.value;applyFilter()">
+                    <option value="all">All Sources</option>
+                    <option value="main">Triple RRR Main</option>
+                    <option value="blueprint">90-Day Blueprint</option>
+                    <option value="guide">Investor ID Guide</option>
+                </select>
+            </div>
+            <div class="tw"><table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Experience</th><th>Source</th><th>Date</th><th></th></tr></thead><tbody id="leads-body"><tr><td colspan="8"><div class="empty"><h3>No leads yet</h3><p>Submit a form on any page to see leads appear here instantly.</p></div></td></tr></tbody></table></div>
+        </div>
+
+        <!-- ── CHATBOT ── -->
+        <div class="view" id="view-chatbot">
+            <div class="sh">
+                <h2>Chatbot <em>Logs</em></h2>
+                <button class="btn-o" onclick="clearChats()">Clear Logs</button>
+            </div>
+            <div id="chat-container"><div class="tw" style="padding:60px;text-align:center;"><div class="empty"><h3>No chat logs yet</h3><p>When visitors use the AI chatbot on your main site, their conversations will appear here — so you can see exactly what questions people are asking.</p></div></div></div>
+        </div>
+
+        <!-- ── SETTINGS ── -->
+        <div class="view" id="view-settings">
+            <div class="sh" style="margin-bottom:24px;"><h2>Business <em>Settings</em></h2></div>
+            <div class="sg">
+                <div class="scard">
+                    <h3>Business Info</h3>
+                    <div class="fg"><label>Business Name</label><input type="text" value="Triple RRR Investments"></div>
+                    <div class="fg"><label>Founder Name</label><input type="text" value="Ron Breitenbach"></div>
+                    <div class="fg"><label>Email</label><input type="email" value="inhousewealth@gmail.com"></div>
+                    <div class="fg"><label>Phone</label><input type="tel" value="+1 520-343-7331"></div>
+                    <button class="btn-g" style="margin-top:6px;" onclick="alert('Settings saved!')">Save Changes</button>
+                </div>
+                <div class="scard">
+                    <h3>Feature Toggles</h3>
+                    <div class="trow"><span>AI Chat Widget</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="trow"><span>Lead Capture Forms</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="trow"><span>Chat Logging</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="trow"><span>Auto-open Chat (5s)</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="trow"><span>Hero Particle Effect</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                </div>
+                <div class="scard">
+                    <h3>Notifications</h3>
+                    <div class="trow"><span>Email on new lead</span><div class="tog on" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="trow"><span>Weekly lead summary</span><div class="tog" onclick="this.classList.toggle('on')"></div></div>
+                    <div class="fg" style="margin-top:16px;"><label>Notification Email</label><input type="email" value="inhousewealth@gmail.com"></div>
+                </div>
+                <div class="scard">
+                    <h3>Data Management</h3>
+                    <p style="font-size:13px;color:var(--wd);line-height:1.7;margin-bottom:18px;">Leads are stored locally in your browser. Export regularly to keep a backup of your data.</p>
+                    <div style="display:flex;flex-direction:column;gap:9px;">
+                        <button class="btn-g" onclick="exportCSV()" style="justify-content:center;">Export All Leads (CSV)</button>
+                        <button class="btn-o" onclick="clearLeads()" style="color:var(--red);border-color:rgba(239,68,68,.3);justify-content:center;">Clear All Lead Data</button>
+                    </div>
+                    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(201,168,76,.1);">
+                        <button class="btn-o" onclick="seedDemo()" style="width:100%;justify-content:center;">Load Sample Leads (Demo)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// ── NAV ──
+function show(name, el) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+    document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
+    document.getElementById('view-' + name).classList.add('on');
+    if (el) el.classList.add('on');
+    renderAll();
+}
+
+// ── DATE / GREETING ──
+const NOW = new Date();
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+document.getElementById('tb-date').textContent = DAYS[NOW.getDay()] + ', ' + MONTHS[NOW.getMonth()] + ' ' + NOW.getDate() + ', ' + NOW.getFullYear();
+const h = NOW.getHours();
+document.getElementById('greeting').innerHTML = (h<12?'Good morning':h<17?'Good afternoon':'Good evening') + ', <em style="font-style:italic;">Ron</em> 👋';
+
+// ── STORAGE ──
+const getLeads = () => { try { return JSON.parse(localStorage.getItem('triplerrr_leads')||'[]'); } catch { return []; } };
+const saveLeads = d => localStorage.setItem('triplerrr_leads', JSON.stringify(d));
+const getChats  = () => { try { return JSON.parse(localStorage.getItem('triplerrr_chats')||'[]'); } catch { return []; } };
+
+function deleteLead(id) { saveLeads(getLeads().filter(l=>l.id!==id)); renderAll(); }
+function clearLeads() { if(!confirm('Delete all leads? Cannot be undone.')) return; localStorage.removeItem('triplerrr_leads'); renderAll(); }
+function clearChats()  { if(!confirm('Clear all chat logs?')) return; localStorage.removeItem('triplerrr_chats'); renderAll(); }
+
+// ── HELPERS ──
+function srcClass(s) {
+    if (!s) return 's-main';
+    const l = s.toLowerCase();
+    if (l.includes('blueprint')) return 's-bp';
+    if (l.includes('guide') || l.includes('investor')) return 's-guide';
+    return 's-main';
+}
+function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+    catch { return iso||''; }
+}
+function isMain(l) { const s=(l.source||'').toLowerCase(); return !s.includes('blueprint')&&!s.includes('guide')&&!s.includes('investor'); }
+function isBp(l)   { return (l.source||'').toLowerCase().includes('blueprint'); }
+
+// ── FILTER STATE ──
+let filterQ='', filterSrc='all';
+function applyFilter() {
+    let leads = getLeads();
+    if (filterQ) leads = leads.filter(l=>(l.name||'').toLowerCase().includes(filterQ.toLowerCase())||(l.email||'').toLowerCase().includes(filterQ.toLowerCase()));
+    if (filterSrc!=='all') {
+        leads = leads.filter(l => {
+            if (filterSrc==='main') return isMain(l);
+            if (filterSrc==='blueprint') return isBp(l);
+            if (filterSrc==='guide') return !isMain(l)&&!isBp(l);
+            return true;
+        });
+    }
+    renderTable(leads, document.getElementById('leads-body'), true);
+}
+
+// ── RENDER ──
+function renderTable(leads, tbody, full) {
+    if (!leads.length) {
+        tbody.innerHTML = `<tr><td colspan="${full?8:4}"><div class="empty"><h3>No leads yet</h3><p>Submit a form on any page to see leads appear here.</p></div></td></tr>`;
+        return;
+    }
+    tbody.innerHTML = leads.slice().reverse().map((l,i) => full ? `
+        <tr>
+            <td style="color:var(--gold);font-weight:600;">${leads.length-i}</td>
+            <td style="color:var(--white);font-weight:500;">${l.name||'—'}</td>
+            <td>${l.email||'—'}</td>
+            <td>${l.phone||'—'}</td>
+            <td>${l.experience||'—'}</td>
+            <td><span class="src ${srcClass(l.source)}">${l.source||'Main Site'}</span></td>
+            <td>${fmtDate(l.date)}</td>
+            <td><button onclick="deleteLead('${l.id}')" style="background:none;border:none;color:rgba(239,68,68,.55);cursor:pointer;font-size:18px;">×</button></td>
+        </tr>` : `
+        <tr>
+            <td style="color:var(--white);font-weight:500;">${l.name||l.email||'—'}</td>
+            <td>${l.email||'—'}</td>
+            <td><span class="src ${srcClass(l.source)}">${l.source||'Main Site'}</span></td>
+            <td>${fmtDate(l.date)}</td>
+        </tr>`
+    ).join('');
+}
+
+function renderChats() {
+    const chats = getChats();
+    document.getElementById('s-chats').textContent = chats.length;
+    const c = document.getElementById('chat-container');
+    if (!chats.length) {
+        c.innerHTML = '<div class="tw" style="padding:60px;text-align:center;"><div class="empty"><h3>No chat logs yet</h3><p>Visitor conversations from the AI chatbot will be recorded here.</p></div></div>';
+        return;
+    }
+    c.innerHTML = chats.slice().reverse().map(ch => `
+        <div class="cl-card">
+            <div class="cl-hd">
+                <span style="font-family:var(--ff);font-size:15px;">Conversation</span>
+                <span class="cl-date">${fmtDate(ch.date)}</span>
+            </div>
+            ${ch.messages.map(m=>`
+                <div class="cm">
+                    <span class="cm-role ${m.role==='user'?'r-user':'r-bot'}">${m.role==='user'?'Visitor':'AI'}</span>
+                    <span class="cm-txt">${m.text}</span>
+                </div>`).join('')}
+        </div>`).join('');
+}
+
+function renderAll() {
+    const leads = getLeads();
+    const mainL = leads.filter(isMain);
+    const bpL   = leads.filter(isBp);
+    document.getElementById('s-total').textContent = leads.length;
+    document.getElementById('s-main').textContent  = mainL.length;
+    document.getElementById('s-bp').textContent    = bpL.length;
+    document.getElementById('lead-badge').textContent = leads.length;
+    document.getElementById('pc-main').textContent = mainL.length;
+    document.getElementById('pc-bp').textContent   = bpL.length;
+    document.getElementById('pm-main').textContent = mainL.length;
+    document.getElementById('pm-bp').textContent   = bpL.length;
+    renderTable(leads.slice(-5), document.getElementById('recent-body'), false);
+    applyFilter();
+    renderChats();
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+    const leads = getLeads();
+    if (!leads.length) { alert('No leads to export yet.'); return; }
+    const rows = [['#','Name','Email','Phone','Experience','Source','Date'],
+        ...leads.slice().reverse().map((l,i)=>[i+1,l.name||'',l.email||'',l.phone||'',l.experience||'',l.source||'',fmtDate(l.date)])];
+    const csv = rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+    a.download = `triplerrr-leads-${NOW.toISOString().split('T')[0]}.csv`;
+    a.click();
+}
+
+// ── DEMO DATA ──
+function seedDemo() {
+    if (getLeads().length) { alert('Leads already exist. Clear them first to reload demo data.'); return; }
+    saveLeads([
+        {id:'d1',name:'Marcus Thompson',email:'marcus.t@gmail.com',phone:'(305) 555-0181',experience:'Complete Beginner',source:'Triple RRR Main Site',date:new Date(Date.now()-864e5*2).toISOString()},
+        {id:'d2',name:'Jasmine Roberts',email:'jasmine.r@outlook.com',phone:'(718) 555-0134',experience:'Some Knowledge, No Deals',source:'90-Day Blueprint',date:new Date(Date.now()-864e5*5).toISOString()},
+        {id:'d3',name:'David Kim',email:'david.kim@gmail.com',phone:'(404) 555-0199',experience:'1–2 Deals Closed',source:'Triple RRR Main Site',date:new Date(Date.now()-864e5*8).toISOString()},
+        {id:'d4',name:'Aisha Johnson',email:'aisha.j@yahoo.com',phone:'(213) 555-0177',experience:'Complete Beginner',source:'90-Day Blueprint',date:new Date(Date.now()-864e5*12).toISOString()},
+    ]);
+    renderAll();
+    alert('Sample leads loaded!');
+}
+
+renderAll();
+setInterval(renderAll, 20000);
+</script>
+</body>
+</html>
