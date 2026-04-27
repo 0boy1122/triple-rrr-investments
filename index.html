@@ -371,33 +371,68 @@
         .testi__hd { text-align:center; margin-bottom:60px; }
         .testi__hd .s-label { justify-content:center; }
         .testi__grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
-        .tcard {
+
+        /* YouTube embed card */
+        .ytcard {
             position:relative; aspect-ratio:16/9; background:var(--black-3);
-            overflow:hidden; cursor:none;
-            border:1px solid rgba(201,168,76,.1); transition:var(--t);
+            overflow:hidden; border:1px solid rgba(201,168,76,.1);
+            transition:var(--t); display:block; text-decoration:none;
+            cursor:pointer;
         }
-        .tcard:hover {
-            border-color:rgba(201,168,76,.4); transform:translateY(-4px);
-            box-shadow:0 20px 60px rgba(0,0,0,.5), var(--gold-glow);
+        .ytcard:hover { border-color:rgba(201,168,76,.4); transform:translateY(-4px);
+            box-shadow:0 20px 60px rgba(0,0,0,.5), var(--gold-glow); }
+
+        /* Thumbnail — YouTube maxres image, falls back to gradient */
+        .ytcard__thumb {
+            width:100%; height:100%; object-fit:cover; display:block;
+            transition:transform .6s var(--ease);
         }
-        .tcard__thumb {
+        .ytcard:hover .ytcard__thumb { transform:scale(1.05); }
+        .ytcard__fallback {
             width:100%; height:100%;
             background:linear-gradient(135deg,#1c1c1c 0%,#0d0d0d 100%);
-            display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+            display:flex; align-items:center; justify-content:center;
         }
-        .tcard__play {
-            width:58px; height:58px; background:var(--gold); border-radius:50%;
-            display:flex; align-items:center; justify-content:center; transition:var(--t);
+
+        /* Play button overlay */
+        .ytcard__play {
+            position:absolute; inset:0;
+            display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
         }
-        .tcard:hover .tcard__play { transform:scale(1.15); box-shadow:0 0 32px rgba(201,168,76,.65); }
-        .tcard__play svg { width:20px; height:20px; color:var(--black); margin-left:3px; }
-        .tcard__lbl { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--white-dim); }
-        .tcard__ov {
-            position:absolute; bottom:0; left:0; right:0; padding:18px;
-            background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%);
+        .ytcard__btn {
+            width:62px; height:62px; background:rgba(255,0,0,.88); border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            transition:transform var(--t), box-shadow var(--t), background var(--t);
+            box-shadow:0 4px 28px rgba(0,0,0,.5);
         }
-        .tcard__name { font-family:var(--ff-disp); font-size:16px; }
-        .tcard__res { font-size:10.5px; color:var(--gold); letter-spacing:.1em; text-transform:uppercase; }
+        .ytcard:hover .ytcard__btn { transform:scale(1.15); background:rgb(255,0,0); box-shadow:0 8px 40px rgba(255,0,0,.5); }
+        .ytcard__btn svg { width:22px; height:22px; color:#fff; margin-left:4px; }
+        .ytcard__lbl { font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--white-dim); }
+
+        /* Bottom overlay with name/result */
+        .ytcard__ov {
+            position:absolute; bottom:0; left:0; right:0; padding:16px 18px;
+            background:linear-gradient(to top,rgba(0,0,0,.92) 0%,transparent 100%);
+        }
+        .ytcard__name { font-family:var(--ff-disp); font-size:16px; color:var(--white); }
+        .ytcard__res { font-size:10.5px; color:var(--gold); letter-spacing:.1em; text-transform:uppercase; margin-top:2px; }
+
+        /* YouTube CTA button below grid */
+        .yt-cta {
+            display:flex; align-items:center; justify-content:center; gap:14px;
+            margin-top:44px;
+        }
+        .yt-cta-btn {
+            display:inline-flex; align-items:center; gap:10px;
+            background:#FF0000; color:#fff; border:none;
+            padding:14px 28px; font-family:var(--ff-body); font-size:12px;
+            font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+            text-decoration:none; border-radius:3px; cursor:pointer;
+            transition:opacity var(--t), transform var(--t), box-shadow var(--t);
+        }
+        .yt-cta-btn:hover { opacity:.88; transform:translateY(-2px); box-shadow:0 8px 32px rgba(255,0,0,.4); }
+        .yt-cta-btn svg { width:18px; height:18px; flex-shrink:0; }
+
         @media(max-width:900px){ .testi__grid{ grid-template-columns:1fr; max-width:480px; margin:0 auto; } }
 
         /* ── PRICING ── */
@@ -932,37 +967,63 @@
             <h2 class="s-title rv d1" style="margin-top:4px;">Real Students. <em>Real Results.</em></h2>
         </div>
         <div class="testi__grid">
-            <div class="tcard rv d1">
-                <div class="tcard__thumb">
-                    <div class="tcard__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                    <span class="tcard__lbl">Watch Testimonial</span>
+
+            <!-- VIDEO CARD 1 — replace VIDEO_ID_1 with actual YouTube ID -->
+            <a class="ytcard rv d1" href="https://www.youtube.com/@RonBreitenbach" target="_blank" rel="noopener" id="ytc1">
+                <div class="ytcard__fallback" id="yt1-fb">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".2"><rect width="48" height="48" rx="8" fill="#C9A84C"/><path d="M20 16l16 8-16 8V16z" fill="#080808"/></svg>
                 </div>
-                <div class="tcard__ov">
-                    <div class="tcard__name">Marcus T.</div>
-                    <div class="tcard__res">Closed First Deal in 60 Days</div>
+                <div class="ytcard__play">
+                    <div class="ytcard__btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                    <span class="ytcard__lbl">Watch on YouTube</span>
                 </div>
-            </div>
-            <div class="tcard rv d2">
-                <div class="tcard__thumb">
-                    <div class="tcard__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                    <span class="tcard__lbl">Watch Testimonial</span>
+                <div class="ytcard__ov">
+                    <div class="ytcard__name">Ron Breitenbach</div>
+                    <div class="ytcard__res">Real Estate Investing Tips</div>
                 </div>
-                <div class="tcard__ov">
-                    <div class="tcard__name">Jasmine R.</div>
-                    <div class="tcard__res">$3,400/mo Passive Income</div>
+            </a>
+
+            <!-- VIDEO CARD 2 — replace VIDEO_ID_2 with actual YouTube ID -->
+            <a class="ytcard rv d2" href="https://www.youtube.com/@RonBreitenbach" target="_blank" rel="noopener" id="ytc2">
+                <div class="ytcard__fallback" id="yt2-fb">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".2"><rect width="48" height="48" rx="8" fill="#C9A84C"/><path d="M20 16l16 8-16 8V16z" fill="#080808"/></svg>
                 </div>
-            </div>
-            <div class="tcard rv d3">
-                <div class="tcard__thumb">
-                    <div class="tcard__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
-                    <span class="tcard__lbl">Watch Testimonial</span>
+                <div class="ytcard__play">
+                    <div class="ytcard__btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                    <span class="ytcard__lbl">Watch on YouTube</span>
                 </div>
-                <div class="tcard__ov">
-                    <div class="tcard__name">David K.</div>
-                    <div class="tcard__res">$200K → $1M+ Yearly in Real Estate</div>
+                <div class="ytcard__ov">
+                    <div class="ytcard__name">Ron Breitenbach</div>
+                    <div class="ytcard__res">How to Find Your First Deal</div>
                 </div>
-            </div>
+            </a>
+
+            <!-- VIDEO CARD 3 — replace VIDEO_ID_3 with actual YouTube ID -->
+            <a class="ytcard rv d3" href="https://www.youtube.com/@RonBreitenbach" target="_blank" rel="noopener" id="ytc3">
+                <div class="ytcard__fallback" id="yt3-fb">
+                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity=".2"><rect width="48" height="48" rx="8" fill="#C9A84C"/><path d="M20 16l16 8-16 8V16z" fill="#080808"/></svg>
+                </div>
+                <div class="ytcard__play">
+                    <div class="ytcard__btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                    <span class="ytcard__lbl">Watch on YouTube</span>
+                </div>
+                <div class="ytcard__ov">
+                    <div class="ytcard__name">Ron Breitenbach</div>
+                    <div class="ytcard__res">Wholesale vs Buy & Hold Strategy</div>
+                </div>
+            </a>
+
         </div>
+
+        <!-- YouTube channel CTA -->
+        <div class="yt-cta rv">
+            <a href="https://www.youtube.com/@RonBreitenbach" target="_blank" rel="noopener" class="yt-cta-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 00.5 6.19C0 8.08 0 12 0 12s0 3.92.5 5.81a3.02 3.02 0 002.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.55a3.02 3.02 0 002.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+                Subscribe on YouTube
+            </a>
+            <span style="font-size:12px;color:var(--white-dim);">New investing content every week</span>
+        </div>
+
     </div>
 </section>
 
@@ -1516,6 +1577,53 @@ function sendChat(){
     inp.value=''; processMsg(txt);
 }
 function chatKey(e){ if(e.key==='Enter') sendChat(); }
+
+/* ── YOUTUBE THUMBNAILS ──
+   To add real videos: replace null with the 11-char video ID, e.g. 'dQw4w9WgXcQ'
+   Cards will auto-load the real thumbnail and link directly to the video.
+*/
+const YT_VIDEOS = [
+    { card:'ytc1', id: null, title:'Real Estate Investing Tips',      name:'Ron Breitenbach' },
+    { card:'ytc2', id: null, title:'How to Find Your First Deal',     name:'Ron Breitenbach' },
+    { card:'ytc3', id: null, title:'Wholesale vs Buy & Hold Strategy',name:'Ron Breitenbach' },
+];
+YT_VIDEOS.forEach(v => {
+    if (!v.id) return;
+    const card = document.getElementById(v.card);
+    if (!card) return;
+    // Swap link to actual video
+    card.href = 'https://www.youtube.com/watch?v=' + v.id;
+    // Replace fallback with real thumbnail
+    const fb = card.querySelector('.ytcard__fallback');
+    if (fb) {
+        const img = document.createElement('img');
+        img.src = 'https://img.youtube.com/vi/' + v.id + '/maxresdefault.jpg';
+        img.alt = v.title;
+        img.className = 'ytcard__thumb';
+        img.onerror = () => img.src = 'https://img.youtube.com/vi/' + v.id + '/hqdefault.jpg';
+        fb.replaceWith(img);
+    }
+    // Update overlay text
+    const name = card.querySelector('.ytcard__name');
+    const res  = card.querySelector('.ytcard__res');
+    if (name) name.textContent = v.name;
+    if (res)  res.textContent  = v.title;
+    // On click — embed inline instead of opening tab
+    card.addEventListener('click', function(e){
+        e.preventDefault();
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + v.id + '?autoplay=1&rel=0';
+        iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+        card.style.cursor = 'default';
+        // remove play overlay
+        card.querySelector('.ytcard__play')?.remove();
+        card.querySelector('.ytcard__ov')?.remove();
+        card.appendChild(iframe);
+        card.removeEventListener('click', arguments.callee);
+    });
+});
 
 /* ── SMOOTH SCROLL ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
